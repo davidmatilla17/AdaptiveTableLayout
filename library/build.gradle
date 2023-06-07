@@ -1,6 +1,46 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
+apply plugin: 'maven-publish'
+
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+
+def getArtificatId = { ->
+    return "adaptivetablelayout"
+}
+
+def getVersionName = { ->
+    return "1.2.3"  // Replace with version Name
+}
+
+publishing {
+    publications {
+        bar(MavenPublication) {
+            groupId 'com.github.davidmatilla17' // Replace with group ID
+            artifactId getArtificatId()
+            version getVersionName()
+            artifact("$buildDir/outputs/aar/library-debug.aar")
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            /** Configure path of your package repository on Github
+             *  Replace GITHUB_USERID with your/organisation Github userID and REPOSITORY with the repository name on GitHub
+             */
+            url = uri("https://maven.pkg.github.com/davidmatilla17/${getArtificatId()}")
+
+            credentials {
+                /**Create github.properties in root project folder file with gpr.usr=GITHUB_USER_ID  & gpr.key=PERSONAL_ACCESS_TOKEN**/
+                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+            }
+        }
+    }
+}
+
 android {
     compileSdkVersion 33
 
@@ -8,7 +48,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 8
-        versionName "1.2.1"
+        versionName getVersionName()
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
     }
