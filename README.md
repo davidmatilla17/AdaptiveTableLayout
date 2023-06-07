@@ -15,13 +15,50 @@ The main goal of the library is to apply all its functions in the process of wor
 [![Awesome](/images/logo-footer.png)](https://www.cleveroad.com/?utm_source=github&utm_medium=label&utm_campaign=contacts)
 <br/>
 ## Setup and usage
-### Installation
+### Installation of Cleveroad version(parent of this fork)
 by gradle : 
 ```groovy
 dependencies {
     implementation "com.cleveroad:adaptivetablelayout:1.2.1"
 }
 ```
+## Setup and usage
+### Installation of davidmatilla17 version with corrections
+by gradle on module:
+```groovy
+dependencies {
+    implementation "com.github.davidmatilla17:adaptivetablelayout:1.2.4"
+}
+```
+
+Add repository to project gradle(ask for credentials in this github)
+```groovy
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
+repositories {
+google()
+jcenter()
+flatDir {
+dirs 'libs'
+}
+maven { url 'https://jitpack.io' }
+maven { url "https://www.jitpack.io" }
+maven {
+name = "GitHubPackages"
+/*  Configure path to the library hosted on GitHub Package Registry
+*  Replace UserID with package owner userID and REPOSITORY with the repository name
+*  e.g. "https://maven.pkg.github.com/enefce/AndroidLibraryForGitHubPackagesDemo"
+*/
+url = uri("https://maven.pkg.github.com/davidmatilla17/adaptivetablelayout")
+
+            credentials {
+                username = githubProperties['gpr.usr'] ?: System.getenv("GPR_USER")
+                password = githubProperties['gpr.key'] ?: System.getenv("GPR_API_KEY")
+            }
+        }
+    }
+```
+
 ### Features ###
 Library consists of three parts:
 - AdaptiveTableLayout (View)

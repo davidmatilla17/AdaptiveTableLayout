@@ -11,7 +11,7 @@ def getArtificatId = { ->
 }
 
 def getVersionName = { ->
-    return "1.2.3"  // Replace with version Name
+    return "1.2.4"  // Replace with version Name
 }
 
 publishing {
@@ -20,7 +20,7 @@ publishing {
             groupId 'com.github.davidmatilla17' // Replace with group ID
             artifactId getArtificatId()
             version getVersionName()
-            artifact("$buildDir/outputs/aar/library-debug.aar")
+            artifact("$buildDir/outputs/aar/library-release.aar")
         }
     }
 
